@@ -57,6 +57,12 @@
         const driftFactor = 0.9;
         const friction = 0.05;
 
+        // Track layout
+        const track = [
+            { x: 100, y: 100, width: 600, height: 400 },
+            { x: 150, y: 150, width: 500, height: 300 },
+        ];
+
         // Car state
         let car = {
             x: canvas.width / 2,
@@ -101,21 +107,24 @@
             car.x += Math.sin(car.angle) * car.speed * driftFactor;
             car.y -= Math.cos(car.angle) * car.speed;
 
-            // Keep car within track boundaries
-            if (car.x < trackMargin) car.x = trackMargin;
-            if (car.x > canvas.width - trackMargin) car.x = canvas.width - trackMargin;
-            if (car.y < trackMargin) car.y = trackMargin;
-            if (car.y > canvas.height - trackMargin) car.y = canvas.height - trackMargin;
+            // Keep car within canvas boundaries
+            if (car.x < 0) car.x = 0;
+            if (car.x > canvas.width) car.x = canvas.width;
+            if (car.y < 0) car.y = 0;
+            if (car.y > canvas.height) car.y = canvas.height;
         }
 
         function drawTrack() {
-            ctx.fillStyle = trackColor;
-            ctx.fillRect(trackMargin, trackMargin, canvas.width - trackMargin * 2, canvas.height - trackMargin * 2);
+            // Draw track layers
+            track.forEach((section, index) => {
+                ctx.fillStyle = index % 2 === 0 ? "#777" : "#444";
+                ctx.fillRect(section.x, section.y, section.width, section.height);
+            });
 
             // Draw track boundary
             ctx.strokeStyle = "#fff";
             ctx.lineWidth = 2;
-            ctx.strokeRect(trackMargin, trackMargin, canvas.width - trackMargin * 2, canvas.height - trackMargin * 2);
+            ctx.strokeRect(track[0].x, track[0].y, track[0].width, track[0].height);
         }
 
         function drawCar() {
