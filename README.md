@@ -7,12 +7,20 @@
     <style>
         body {
             margin: 0;
-            background: #222;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #76b852, #8dc26f);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         canvas {
@@ -133,4 +141,4 @@
     </script>
 </body>
 </html>
-# nas-cars4
+nas-cars4
