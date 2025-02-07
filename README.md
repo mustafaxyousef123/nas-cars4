@@ -82,10 +82,38 @@
             track.rotation.x = -Math.PI / 2;
             scene.add(track);
 
-            // Car (Basic Box)
-            const carGeometry = new THREE.BoxGeometry(1, 0.5, 2);
-            const carMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-            car = new THREE.Mesh(carGeometry, carMaterial);
+            // Car (Detailed Model)
+            car = new THREE.Group();
+
+            // Car body
+            const bodyGeometry = new THREE.BoxGeometry(1, 0.5, 2);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            car.add(body);
+
+            // Wheels
+            const wheelGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.1, 12);
+            const wheelMaterial = new THREE.MeshStandardMaterial({ color: 0x111111 });
+            
+            function createWheel(x, y, z) {
+                const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+                wheel.rotation.z = Math.PI / 2;
+                wheel.position.set(x, y, z);
+                return wheel;
+            }
+            
+            car.add(createWheel(-0.5, -0.25, 0.8)); // Front left
+            car.add(createWheel(0.5, -0.25, 0.8));  // Front right
+            car.add(createWheel(-0.5, -0.25, -0.8)); // Rear left
+            car.add(createWheel(0.5, -0.25, -0.8));  // Rear right
+
+            // Windows
+            const windowGeometry = new THREE.BoxGeometry(0.9, 0.3, 1.8);
+            const windowMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, transparent: true, opacity: 0.6 });
+            const windows = new THREE.Mesh(windowGeometry, windowMaterial);
+            windows.position.y = 0.3;
+            car.add(windows);
+
             car.position.y = 0.25;
             scene.add(car);
 
